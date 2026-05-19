@@ -824,6 +824,12 @@ export default function App() {
   const [selectedZoomImage, setSelectedZoomImage] = useState<string | null>(null);
 
   useEffect(() => {
+    if (!db || !auth) {
+      console.warn("Firebase not initialized. Data fetching skipped.");
+      setLoading(false);
+      return;
+    }
+
     // 1. Fetch Products from Firestore
     const unsubProducts = onSnapshot(collection(db, 'products'), (snapshot) => {
       const prods = snapshot.docs.map(doc => doc.data() as Product);
@@ -890,7 +896,7 @@ export default function App() {
   }, [dbProjects]);
 
   const handleLogin = async () => {
-    if (isLoggingIn) return;
+    if (!auth || isLoggingIn) return;
     try {
       setIsLoggingIn(true);
       await signInWithPopup(auth, googleProvider);
@@ -905,6 +911,7 @@ export default function App() {
   };
 
   const handleLogout = async () => {
+    if (!auth) return;
     try {
       await signOut(auth);
       setShowAdminPanel(false);
@@ -914,6 +921,7 @@ export default function App() {
   };
 
   const handleSaveProduct = async (product: Product) => {
+    if (!db) return;
     try {
       await setDoc(doc(db, 'products', product.id), product);
     } catch (error) {
@@ -922,6 +930,7 @@ export default function App() {
   };
 
   const handleDeleteProduct = async (id: string) => {
+    if (!db) return;
     if (!window.confirm(lang === 'vi' ? 'Bạn có chắc chắn muốn xóa sản phẩm này?' : 'Are you sure you want to delete this product?')) return;
     try {
       await deleteDoc(doc(db, 'products', id));
@@ -931,6 +940,7 @@ export default function App() {
   };
 
   const handleSaveCertificate = async (cert: { id: string, title: string, imageUrl: string }) => {
+    if (!db) return;
     try {
       await setDoc(doc(db, 'certificates', cert.id), cert);
     } catch (error) {
@@ -939,6 +949,7 @@ export default function App() {
   };
 
   const handleDeleteCertificate = async (id: string) => {
+    if (!db) return;
     if (!window.confirm(lang === 'vi' ? 'Bạn có chắc chắn muốn xóa giấy chứng nhận này?' : 'Are you sure you want to delete this certificate?')) return;
     try {
       await deleteDoc(doc(db, 'certificates', id));
@@ -948,6 +959,7 @@ export default function App() {
   };
 
   const handleSaveDealer = async (dealer: Dealer) => {
+    if (!db) return;
     try {
       await setDoc(doc(db, 'dealers', dealer.id), dealer);
     } catch (error) {
@@ -956,6 +968,7 @@ export default function App() {
   };
 
   const handleDeleteDealer = async (id: string) => {
+    if (!db) return;
     if (!window.confirm(lang === 'vi' ? 'Bạn có chắc chắn muốn xóa đại lý này?' : 'Are you sure you want to delete this dealer?')) return;
     try {
       await deleteDoc(doc(db, 'dealers', id));
@@ -965,6 +978,7 @@ export default function App() {
   };
 
   const handleSaveProject = async (project: Project) => {
+    if (!db) return;
     try {
       await setDoc(doc(db, 'projects', project.id), project);
     } catch (error) {
@@ -973,6 +987,7 @@ export default function App() {
   };
 
   const handleDeleteProject = async (id: string) => {
+    if (!db) return;
     if (!window.confirm(lang === 'vi' ? 'Bạn có chắc chắn muốn xóa dự án này?' : 'Are you sure you want to delete this project?')) return;
     try {
       await deleteDoc(doc(db, 'projects', id));
