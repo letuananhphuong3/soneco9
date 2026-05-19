@@ -1,0 +1,103 @@
+{
+  "entities": {
+    "Product": {
+      "title": "Product",
+      "description": "A paint product with specifications and pricing.",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "name": { "type": "string" },
+        "category": { "type": "string", "enum": ["primer", "topcoat", "waterproof", "putty", "special", "epoxy", "industrial", "traffic"] },
+        "description": {
+          "type": "object",
+          "properties": {
+            "vi": { "type": "string" },
+            "en": { "type": "string" }
+          },
+          "required": ["vi", "en"]
+        },
+        "features": {
+          "type": "object",
+          "properties": {
+            "vi": { "type": "array", "items": { "type": "string" } },
+            "en": { "type": "array", "items": { "type": "string" } }
+          },
+          "required": ["vi", "en"]
+        },
+        "image": { "type": "string" },
+        "coverage": { "type": "string" },
+        "dryingTime": {
+          "type": "object",
+          "properties": {
+            "vi": { "type": "string" },
+            "en": { "type": "string" }
+          },
+          "required": ["vi", "en"]
+        },
+        "price": { "type": "string" }
+      },
+      "required": ["id", "name", "category", "description", "features", "image", "coverage", "dryingTime"]
+    },
+    "Certificate": {
+      "title": "Certificate",
+      "description": "A product certificate or quality assurance image.",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "title": { "type": "string" },
+        "imageUrl": { "type": "string" }
+      },
+      "required": ["id", "title", "imageUrl"]
+    },
+    "Dealer": {
+      "title": "Dealer",
+      "description": "A regional dealer or distributor.",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "name": { "type": "string" },
+        "region": { "type": "string", "enum": ["North", "Central", "South"] },
+        "address": { "type": "string" },
+        "phone": { "type": "string" }
+      },
+      "required": ["id", "name", "region", "address", "phone"]
+    },
+    "Project": {
+      "title": "Project",
+      "description": "A featured construction project using G9ECO products.",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "name": { "type": "string" },
+        "type": {
+          "type": "object",
+          "properties": {
+            "vi": { "type": "string" },
+            "en": { "type": "string" }
+          },
+          "required": ["vi", "en"]
+        },
+        "image": { "type": "string" }
+      },
+      "required": ["id", "name", "type", "image"]
+    }
+  },
+  "firestore": {
+    "/products/{productId}": {
+      "schema": "Product",
+      "description": "Collection of paint products."
+    },
+    "/certificates/{certificateId}": {
+      "schema": "Certificate",
+      "description": "Collection of quality certificates."
+    },
+    "/dealers/{dealerId}": {
+      "schema": "Dealer",
+      "description": "Collection of regional dealers."
+    },
+    "/projects/{projectId}": {
+      "schema": "Project",
+      "description": "Collection of featured projects."
+    }
+  }
+}

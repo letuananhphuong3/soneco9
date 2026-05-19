@@ -1,0 +1,12 @@
+{
+  "name": "Remix: Remix: G9ECO - Vì cuộc sống xanh",
+  "description": "Thương hiệu sơn quốc tế G9ECO - Chuyên gia sơn nước và chất phủ trang trí cao cấp. Giải pháp bảo vệ ngôi nhà với tiêu chuẩn xanh và công nghệ vượt trội.",
+  "requestFramePermissions": [
+    "camera",
+    "microphone",
+    "geolocation"
+  ],
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
+}
